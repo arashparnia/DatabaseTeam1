@@ -14,8 +14,12 @@ public class Main {
                 System.out.println(uniDB.listAllAirlines());
 
 
+
                 uniDB.closeConnection();
             }
+
+
+
         }
 
 

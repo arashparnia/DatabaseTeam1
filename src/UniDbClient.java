@@ -5,6 +5,7 @@
  */
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class UniDbClient {
     // connection parameters
@@ -111,6 +112,8 @@ public class UniDbClient {
         return success;
     }
     public boolean listAllAirlines() throws SQLException {
+        String columnNames[] = { "Name", "Phone", "Fax", "Website", "Country" };
+        ArrayList<String[]> list = new ArrayList<String[]>();
         boolean success = false;
         PreparedStatement stmt = null;
         String query = "SELECT * " + "FROM airline";
@@ -119,10 +122,15 @@ public class UniDbClient {
             ResultSet rset = stmt.executeQuery();
             int nr = 0;
             System.out.printf("%4s  %15s   %15s   %20s   %-6s%n", "Name", "Phone", "Fax", "Website", "Country");
-
             while (rset.next()) {
                 success = true;
                 nr++;
+                String[] row = {rset.getString("airline_name"),
+                        rset.getString("phone"),
+                        rset.getString("fax"),
+                        rset.getString("Website"),
+                        rset.getString("country")};
+                list.add(row);
 
                 System.out.printf("%4s  %15s   %15s   %20s   %-6s%n",
                         rset.getString("airline_name") ,
@@ -138,6 +146,14 @@ public class UniDbClient {
         } finally {
             if (stmt != null) stmt.close();
         }
+
+
+        String[][] data = new String[list.size()][];
+        for (int i = 0; i < list.size(); i++) data[i] = list.get(i);
+
+
+        MainFrame mainFrame	= new MainFrame(data,columnNames);
+        mainFrame.setVisible( true );
         return success;
     }
 }
