@@ -88,72 +88,33 @@ public class UniDbClient {
     }
 
 
-    public boolean sql(String select, String from) throws SQLException {
-        boolean success = false;
+    public void listAircraftsOwenedbyAirline(String airlineName) throws SQLException {
+        ResultSet rset = null;
         PreparedStatement stmt = null;
-        String query = "SELECT ? " + "FROM ?";
+        String query = "Select * "+
+                "FROM airline JOIN aircraft ON  airline.code = aircraft.owner "+
+                "WHERE airline.name = ? ";
         try {
             stmt = conn.prepareStatement(query);
-            stmt.setString(1, select);
-            stmt.setString(2, from);
-            ResultSet rset = stmt.executeQuery();
-            int nr = 0;
+            stmt.setString(1, airlineName);
+            rset = stmt.executeQuery();
             while (rset.next()) {
-                success = true;
-                nr++;
-                System.out.println(rset.getString("airline_name"));
-            }
-            if (nr == 0) System.out.println("No entries found.");
-        } catch (SQLException e) {
-            System.out.println("SQLException : " + e);
-        } finally {
-            if (stmt != null) stmt.close();
-        }
-        return success;
-    }
-    public boolean listAllAirlines() throws SQLException {
-        String columnNames[] = { "Name", "Phone", "Fax", "Website", "Country" };
-        ArrayList<String[]> list = new ArrayList<String[]>();
-        boolean success = false;
-        PreparedStatement stmt = null;
-        String query = "SELECT * " + "FROM airline";
-        try {
-            stmt = conn.prepareStatement(query);
-            ResultSet rset = stmt.executeQuery();
-            int nr = 0;
-            System.out.printf("%4s  %15s   %15s   %20s   %-6s%n", "Name", "Phone", "Fax", "Website", "Country");
-            while (rset.next()) {
-                success = true;
-                nr++;
-                String[] row = {rset.getString("airline_name"),
-                        rset.getString("phone"),
-                        rset.getString("fax"),
-                        rset.getString("Website"),
-                        rset.getString("country")};
-                list.add(row);
-
-                System.out.printf("%4s  %15s   %15s   %20s   %-6s%n",
-                        rset.getString("airline_name") ,
-                        rset.getString("phone"),
-                        rset.getString("fax"),
-                        rset.getString("Website"),
-                        rset.getString("country")
+                System.out.println(
+                        rset.getString("name") + " - " +
+                        rset.getString("country") + " - "  +
+                        rset.getString("phone") + " - " +
+                        rset.getString("fax")  + " - " +
+                                rset.getString("website")
                 );
             }
-            if (nr == 0) System.out.println("No entries found.");
         } catch (SQLException e) {
             System.out.println("SQLException : " + e);
         } finally {
             if (stmt != null) stmt.close();
         }
-
-
-        String[][] data = new String[list.size()][];
-        for (int i = 0; i < list.size(); i++) data[i] = list.get(i);
-
-
-        MainFrame mainFrame	= new MainFrame(data,columnNames);
-        mainFrame.setVisible( true );
-        return success;
     }
+
+
+
+
 }

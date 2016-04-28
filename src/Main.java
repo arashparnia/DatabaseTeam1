@@ -2,7 +2,8 @@
  * Created by arash, gray and christopher on 23/04/2016
  */
 
-import java.sql.SQLException;
+import javax.swing.*;
+import java.sql.*;
 
 public class Main {
 
@@ -11,8 +12,16 @@ public class Main {
             UniDbClient uniDB = new UniDbClient();
 
             if (uniDB.openConnection()) {
-                System.out.println(uniDB.listAllAirlines());
+                String[] col;
+                uniDB.listAircraftsOwenedbyAirline("Qantas");
+                System.out.println();
+                uniDB.listAircraftsOwenedbyAirline("Emirates");
 
+
+
+
+//                MainFrame mainFrame	= new MainFrame({1,2},{{1,2}{1,2}});
+//                mainFrame.setVisible( true );
 
 
                 uniDB.closeConnection();

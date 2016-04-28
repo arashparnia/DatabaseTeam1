@@ -12,21 +12,12 @@ public class MainFrame extends JFrame {
         super("Database Application");
         setSize( 800, 600 );
         setBackground( Color.gray );
-
-        // Create a panel to hold all other components
         topPanel = new JPanel();
         topPanel.setLayout( new BorderLayout() );
         getContentPane().add( topPanel );
-
-
-        // Create a new table instance
         table = new JTable( data, columnNames );
-
-        // Add the table to a scrolling pane
         scrollPane = new JScrollPane( table );
         topPanel.add( scrollPane, BorderLayout.CENTER );
-
-
     }
 
 }
