@@ -11,7 +11,7 @@ public class Main {
             UniDbClient uniDB = new UniDbClient();
 
             if (uniDB.openConnection()) {
-                System.out.println(uniDB.sql("airline_name", "airline"));
+                System.out.println(uniDB.listAllAirlines());
 
 
                 uniDB.closeConnection();

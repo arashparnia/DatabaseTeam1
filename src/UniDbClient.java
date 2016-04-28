@@ -110,5 +110,34 @@ public class UniDbClient {
         }
         return success;
     }
+    public boolean listAllAirlines() throws SQLException {
+        boolean success = false;
+        PreparedStatement stmt = null;
+        String query = "SELECT * " + "FROM airline";
+        try {
+            stmt = conn.prepareStatement(query);
+            ResultSet rset = stmt.executeQuery();
+            int nr = 0;
+            System.out.printf("%4s  %15s   %15s   %20s   %-6s%n", "Name", "Phone", "Fax", "Website", "Country");
 
+            while (rset.next()) {
+                success = true;
+                nr++;
+
+                System.out.printf("%4s  %15s   %15s   %20s   %-6s%n",
+                        rset.getString("airline_name") ,
+                        rset.getString("phone"),
+                        rset.getString("fax"),
+                        rset.getString("Website"),
+                        rset.getString("country")
+                );
+            }
+            if (nr == 0) System.out.println("No entries found.");
+        } catch (SQLException e) {
+            System.out.println("SQLException : " + e);
+        } finally {
+            if (stmt != null) stmt.close();
+        }
+        return success;
+    }
 }
