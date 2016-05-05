@@ -13,14 +13,18 @@ public class Main {
 
             if (uniDB.openConnection()) {
                 String[] col;
-                uniDB.listAircraftsOwenedbyAirline("Qantas");
                 System.out.println();
-                uniDB.listAircraftsOwenedbyAirline("Emirates");
+                System.out.println("Selecting all from techie view where name is Steve");
+                uniDB.listViewTechie("Steve");
+                System.out.println();
+                System.out.println("Selecting all from techie view where name is Peter");
+                uniDB.listViewTechie("Peter");
 
 
 
-
-//                MainFrame mainFrame	= new MainFrame({1,2},{{1,2}{1,2}});
+//                String[][] data = {{"1","2"},{"1","2"},{"1","2"}};
+//
+//                MainFrame mainFrame	= new MainFrame();
 //                mainFrame.setVisible( true );
 
 

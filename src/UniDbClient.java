@@ -115,6 +115,31 @@ public class UniDbClient {
     }
 
 
+    public void listViewTechie(String name) throws SQLException {
+        ResultSet rset = null;
+        PreparedStatement stmt = null;
 
+        String query = "Select * "+
+                "FROM techie "+
+                "WHERE givenname = ?";
+        try {
+            stmt = conn.prepareStatement(query);
+            stmt.setString(1, name);
+            rset = stmt.executeQuery();
+            while (rset.next()) {
+                System.out.println(
+                        rset.getString("empid") + " - " +
+                                rset.getString("givenname") + " - "  +
+                                rset.getString("familyname") + " - " +
+                                rset.getString("address")  + " - " +
+                                rset.getString("phone")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException : " + e);
+        } finally {
+            if (stmt != null) stmt.close();
+        }
+    }
 
 }
