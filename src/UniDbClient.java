@@ -88,58 +88,36 @@ public class UniDbClient {
     }
 
 
-    public void listAircraftsOwenedbyAirline(String airlineName) throws SQLException {
+    public Integer addTestEvent(String p_regno, Integer empid,Integer casa_nr,
+                                  String testdate,Integer hour ,Integer score) throws SQLException {
         ResultSet rset = null;
-        PreparedStatement stmt = null;
-        String query = "Select * "+
-                "FROM airline JOIN aircraft ON  airline.code = aircraft.owner "+
-                "WHERE airline.name = ? ";
-        try {
-            stmt = conn.prepareStatement(query);
-            stmt.setString(1, airlineName);
-            rset = stmt.executeQuery();
-            while (rset.next()) {
-                System.out.println(
-                        rset.getString("name") + " - " +
-                        rset.getString("country") + " - "  +
-                        rset.getString("phone") + " - " +
-                        rset.getString("fax")  + " - " +
-                                rset.getString("website")
-                );
-            }
-        } catch (SQLException e) {
-            System.out.println("SQLException : " + e);
-        } finally {
-            if (stmt != null) stmt.close();
-        }
+        CallableStatement cstmt = conn.prepareCall("{call ADD_TEST_EVENT(?,?,?,?,?,?,?)}");
+        cstmt.setString("p_regno", p_regno);
+        cstmt.setInt("p_empid", empid);
+        cstmt.setInt("p_casa_nr", casa_nr);
+        cstmt.setDate("p_testdate", Date.valueOf(testdate));
+        cstmt.setInt("p_hours", hour);
+        cstmt.setInt("p_score", score);
+        cstmt.registerOutParameter("p_testid", Types.INTEGER);
+
+        rset = cstmt.executeQuery();
+        return cstmt.getInt("p_testid");
     }
 
 
-    public void listViewTechie(String name) throws SQLException {
+    public ResultSet listViewTechie(String name) throws SQLException {
         ResultSet rset = null;
         PreparedStatement stmt = null;
-
-        String query = "Select * "+
-                "FROM techie "+
-                "WHERE givenname = ?";
+        String query = "Select * "+ "FROM techie "+ "WHERE givenname = ?";
         try {
+
             stmt = conn.prepareStatement(query);
             stmt.setString(1, name);
             rset = stmt.executeQuery();
-            while (rset.next()) {
-                System.out.println(
-                        rset.getString("empid") + " - " +
-                                rset.getString("givenname") + " - "  +
-                                rset.getString("familyname") + " - " +
-                                rset.getString("address")  + " - " +
-                                rset.getString("phone")
-                );
-            }
-        } catch (SQLException e) {
-            System.out.println("SQLException : " + e);
-        } finally {
-            if (stmt != null) stmt.close();
-        }
+        } catch (SQLException e) {System.out.println("SQLException : " + e);}
+
+        return rset;
     }
+
 
 }
