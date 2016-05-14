@@ -139,6 +139,21 @@ public class UniDbClient {
 
         return rset;
     }
+    public String addExperties(Integer empid,String model ) throws SQLException {
+        ResultSet rset = null;
+        String r = "No Error";
+        PreparedStatement stmt = null;
+        String query = "insert into expert values(?,?)";
+        try {
+
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, empid);
+            stmt.setString(2, model);
+            rset = stmt.executeQuery();
+        } catch (SQLException e) {r = ("SQLException : " + e);}
+
+        return r;
+    }
 
 
 }

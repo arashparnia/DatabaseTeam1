@@ -28,7 +28,8 @@ public class MainFrame extends JFrame  {
     private JButton     queryButton;
 
     private	JPanel		triggerPanel;
-    private JTextField  triggerTextField;
+    private JTextField  triggerTextField1;
+    private JTextField  triggerTextField2;
     private JButton     triggerButton;
 
     private	JPanel		panel;
@@ -92,9 +93,11 @@ public class MainFrame extends JFrame  {
         triggerPanel = new JPanel(new GridLayout(0,5));
         triggerPanel.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(Color.black), "trigger"));
-        triggerTextField = new JTextField("trigger  ?");
-        triggerButton = new JButton("Query");
-        triggerPanel.add(triggerTextField);
+        triggerTextField1 = new JTextField("123456790");
+        triggerTextField2 = new JTextField("737-838");
+        triggerButton = new JButton("Insert into expert");
+        triggerPanel.add(triggerTextField1);
+        triggerPanel.add(triggerTextField2);
         triggerPanel.add(triggerButton);
 
 
@@ -163,7 +166,19 @@ public class MainFrame extends JFrame  {
                 }catch (SQLException err) {System.out.println("SQLException : " + err);}
             }
         });
-
+        triggerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String r = uniDB.addExperties(
+                                Integer.parseInt(triggerTextField1.getText()),
+                                    triggerTextField2.getText()
+                            );
+                    tableModel.setDataVector(new String[][]{{String.valueOf(r)}},new String[]{"INSERT INTO EXPERT"});
+                    tableModel.fireTableDataChanged();
+                }catch (SQLException err) {System.out.println("SQLException : " + err);}
+            }
+        });
 
 
     }
