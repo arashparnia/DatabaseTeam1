@@ -83,7 +83,7 @@ public class MainFrame extends JFrame  {
         queryPanel = new JPanel(new GridLayout(0,5));
         queryPanel.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(Color.black), "Query"));
-        queryTextField = new JTextField("query  ?");
+        queryTextField = new JTextField("Boeing");
         queryButton = new JButton("Query");
         queryPanel.add(queryTextField);
         queryPanel.add(queryButton);
@@ -153,6 +153,19 @@ public class MainFrame extends JFrame  {
 
             }
         });
+        queryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    TableData t = new TableData(uniDB.testEventsFor(queryTextField.getText()));
+                    tableModel.setDataVector(t.getData(),t.getColumns());
+                    tableModel.fireTableDataChanged();
+                }catch (SQLException err) {System.out.println("SQLException : " + err);}
+            }
+        });
+
+
+
     }
 
 }

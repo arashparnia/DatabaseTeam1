@@ -118,6 +118,27 @@ public class UniDbClient {
 
         return rset;
     }
+    public ResultSet testEventsFor(String name) throws SQLException {
+        ResultSet rset = null;
+        PreparedStatement stmt = null;
+        String query =
+                "SELECT casa_nr, TestSpec.NAME AS casa_name, empid, Technician.GIVENNAME AS givenname, Technician.FAMILYNAME AS familyname, COUNT(testid) AS num_of_tests,AVG(Testevent.HOURS) AS avg_hours "+
+                "FROM Testevent JOIN Tested USING(testid) JOIN TestSpec USING(casa_nr) JOIN Technician USING(empid) "+
+                "WHERE empid IN ( " +
+                "      SELECT empid FROM Expert JOIN Aircrafttype USING(model) " +
+                "      WHERE maker = ? " +
+                "      ) " +
+                "GROUP BY casa_nr, TestSpec.NAME, empid, Technician.GIVENNAME, Technician.FAMILYNAME " +
+                "ORDER BY casa_name, familyname ";
+        try {
+
+            stmt = conn.prepareStatement(query);
+            stmt.setString(1, name);
+            rset = stmt.executeQuery();
+        } catch (SQLException e) {System.out.println("SQLException : " + e);}
+
+        return rset;
+    }
 
 
 }
