@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class UniDbClient {
     // connection parameters
-    private final String userid = "apar2844";
-    private final String passwd = "apar2844";
+    private final String userid = "COMP5138_PUBLIC";
+    private final String passwd = "COMP5138_PUBLIC";
     private final String database = "oracle12.it.usyd.edu.au:1521:COMP5138";
 
     // instance variable for the database connection
@@ -44,7 +44,7 @@ public class UniDbClient {
            /* connect to the database */
             conn = DriverManager.getConnection("jdbc:oracle:thin:@" + database, userid, passwd);
            /* If you want to connect to your own database you should remove this line: */
-            // conn.createStatement().execute("ALTER SESSION SET current_schema=COMP5138_DEMO");
+            conn.createStatement().execute("ALTER SESSION SET current_schema=apar2844");
             return true;
         } catch (SQLException sql_ex) {
            /* error handling */
